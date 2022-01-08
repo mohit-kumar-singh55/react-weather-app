@@ -6,7 +6,7 @@ import Weather from './components/Weather';
 import Form from './components/Form';
 
 // api call api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
-// env 
+// env is not working
 const api_key = "d7d3c2ff1cd71ecaf9f2e4eaa8a04065";
 
 class App extends Component {
