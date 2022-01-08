@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import './App.css';
-import "weather-icons-master/css/weather-icons.css";
+import "./weather-icons/css/weather-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Weather from './components/Weather';
 import Form from './components/Form';
 
 // api call api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
-const API_Key = "d7d3c2ff1cd71ecaf9f2e4eaa8a04065"
+const API_Key = process.env.API_KEY;
 
 
 class App extends Component {
