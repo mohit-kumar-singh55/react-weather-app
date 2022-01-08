@@ -58,7 +58,7 @@ class App extends Component {
       case rangeID >= 701 && rangeID <= 781:
         this.setState({ icon: this.weatherIcon.Atmosphere });
         break;
-      case rangeID >= 800:
+      case rangeID === 800:
         this.setState({ icon: this.weatherIcon.Clear });
         break;
       case rangeID >= 801 && rangeID <= 804:
@@ -81,11 +81,12 @@ class App extends Component {
       const response = await api_call.json();
 
       this.setState({
-        city: `${response.name},${response.sys.country}`,
+        city: `${response.name}, ${response.sys.country}`,
         temp_celsius: this.calCelsius(response.main.temp),
         temp_min: this.calCelsius(response.main.temp_min),
         temp_max: this.calCelsius(response.main.temp_max),
-        description: response.weather[0].description
+        description: response.weather[0].description,
+        error: false
       });
 
       this.getWeatherIcon(this.weatherIcon, response.weather[0].id);

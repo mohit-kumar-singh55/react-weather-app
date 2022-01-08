@@ -14,7 +14,7 @@ const Form = (props) => {
                         <input type="text" className="form-control" name='country' autoComplete='off' placeholder='Country' />
                     </div>
                     <div className="col-md-3 mt-md-0 text-md-left">
-                        <button className="btn btn-warning">Get Weather</button>
+                        <button className="btn btn-warning my-2">Get Weather</button>
                     </div>
                 </div>
             </form>
