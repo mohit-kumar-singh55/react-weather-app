@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import './App.css';
-import "./weather-icons/css/weather-icons.css";
+import "weather-icons/css/weather-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Weather from './components/Weather';
 import Form from './components/Form';
 
 // api call api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
-const API_Key = process.env.API_KEY;
-
+// env 
+const api_key = "d7d3c2ff1cd71ecaf9f2e4eaa8a04065";
 
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
       city: undefined,
       country: undefined,
@@ -76,7 +77,7 @@ class App extends Component {
     const country = e.target.elements.country.value;
 
     if (city && country) {
-      const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_Key}`)
+      const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`)
 
       const response = await api_call.json();
 
