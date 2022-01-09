@@ -9,13 +9,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* My */
   background-image: url('./assets/weather.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   color: rgba(255, 255, 255, 0.92) !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+@media screen and (max-width: 992px){
+  body{
+    background-image: url("./assets/night.png");
+  }
 }
