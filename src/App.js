@@ -4,6 +4,7 @@ import "weather-icons/css/weather-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Weather from './components/Weather';
 import Form from './components/Form';
+import Alert from './components/Alert';
 
 // api call api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
 // env is not working
@@ -23,6 +24,7 @@ class App extends Component {
       temp_min: undefined,
       description: "",
       error: false,
+      alert: null
     }
 
     this.weatherIcon = {
@@ -70,36 +72,59 @@ class App extends Component {
     }
   }
 
+  // Show Alert
+  showAlert = (message) => {
+    this.setState({
+      alert: {
+        msg: message
+      }
+    })
+    setTimeout(() => {
+      this.setState({
+        alert: null
+      })
+    }, 2000);
+  }
+
   getWeather = async (e) => {
     e.preventDefault();
 
-    const city = e.target.elements.city.value;
-    const country = e.target.elements.country.value;
+    try {
+      const city = e.target.elements.city.value;
+      const country = e.target.elements.country.value;
 
-    if (city && country) {
-      const api_call = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`)
+      if (city && country) {
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`;
 
-      const response = await api_call.json();
+        let api_call = await fetch(url);
 
-      this.setState({
-        city: `${response.name}, ${response.sys.country}`,
-        temp_celsius: this.calCelsius(response.main.temp),
-        temp_min: this.calCelsius(response.main.temp_min),
-        temp_max: this.calCelsius(response.main.temp_max),
-        description: response.weather[0].description,
-        error: false
-      });
+        let response = await api_call.json();
 
-      this.getWeatherIcon(this.weatherIcon, response.weather[0].id);
+        this.setState({
+          city: `${response.name}, ${response.sys.country}`,
+          temp_celsius: this.calCelsius(response.main.temp),
+          temp_min: this.calCelsius(response.main.temp_min),
+          temp_max: this.calCelsius(response.main.temp_max),
+          description: response.weather[0].description,
+          error: false
+        });
+
+        this.getWeatherIcon(this.weatherIcon, response.weather[0].id);
+      }
+      else {
+        this.setState({ error: true })
+      }
     }
-    else {
-      this.setState({ error: true })
+    catch (e) {
+      this.showAlert("Typo Occured! Please check spelling mistakes and try again");
     }
   }
+
 
   render() {
     return (
       <div className="App">
+        <Alert alert={this.state.alert} />
         <Form loadWeather={this.getWeather} error={this.state.error} />
         <Weather
           city={this.state.city}
