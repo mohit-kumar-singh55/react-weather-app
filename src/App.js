@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Weather from './components/Weather';
 import Form from './components/Form';
 import Alert from './components/Alert';
+import Loader from "./components/Loader";
 
 // api call api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
 // env is not working
@@ -24,7 +25,8 @@ class App extends Component {
       temp_min: undefined,
       description: "",
       error: false,
-      alert: null
+      alert: null,
+      loading: false
     }
 
     this.weatherIcon = {
@@ -94,6 +96,8 @@ class App extends Component {
       const country = e.target.elements.country.value;
 
       if (city && country) {
+        this.setState({ loading: true })
+
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${api_key}`;
 
         let api_call = await fetch(url);
@@ -110,6 +114,8 @@ class App extends Component {
         });
 
         this.getWeatherIcon(this.weatherIcon, response.weather[0].id);
+
+        this.setState({ loading: false })
       }
       else {
         this.setState({ error: true })
@@ -117,6 +123,7 @@ class App extends Component {
     }
     catch (e) {
       this.showAlert("Typo Occured! Please check spelling mistakes and try again");
+      this.setState({ loading: false })
     }
   }
 
@@ -126,14 +133,15 @@ class App extends Component {
       <div className="App">
         <Alert alert={this.state.alert} />
         <Form loadWeather={this.getWeather} error={this.state.error} />
-        <Weather
-          city={this.state.city}
-          country={this.state.country}
-          temp_celsius={this.state.temp_celsius}
-          temp_min={this.state.temp_min}
-          temp_max={this.state.temp_max}
-          description={this.state.description}
-          weatherIcon={this.state.icon} />
+        {this.state.loading ? < Loader />
+          : <Weather
+            city={this.state.city}
+            country={this.state.country}
+            temp_celsius={this.state.temp_celsius}
+            temp_min={this.state.temp_min}
+            temp_max={this.state.temp_max}
+            description={this.state.description}
+            weatherIcon={this.state.icon} />}
       </div>
     )
   }
